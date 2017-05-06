@@ -32,13 +32,13 @@ class CustomTopo(Topo):
     aggregationSwitch = []
     edgeSwtich = []
 
-    def __init__(self, linkopts1, linkopts2, linkopts3, fanout=2, **opts):
+    def __init__(self, fanout=2, **opts):
         # Initialize topology and default options
         Topo.__init__(self, **opts)
 
-        self.linkopts1 = linkopts1
-        self.linkopts2 = linkopts2
-        self.linkopts3 = linkopts3
+        # self.linkopts1 = linkopts1
+        # self.linkopts2 = linkopts2
+        # self.linkopts3 = linkopts3
         self.fanout = fanout
         self.numberOfHosts = 4 * self.fanout
 
@@ -65,39 +65,39 @@ class CustomTopo(Topo):
         '''
         Create links
         '''
-        linkopt_layer1 = self.linkopts1
+        # linkopt_layer1 = self.linkopts1
         # core -> aggregation
         for i in range(0, 2):
             self.addLink(
-                self.coreSwitch[0], self.aggregationSwitch[i], **linkopt_layer1)
+                self.coreSwitch[0], self.aggregationSwitch[i])
 
         # aggregation -> edge
-        linkopt_layer2 = self.linkopts2
+        # linkopt_layekr2 = self.linkopts2
         for i in range(0, 2):
             self.addLink(
-                self.aggregationSwitch[0], self.edgeSwtich[i], **linkopt_layer2)
+                self.aggregationSwitch[0], self.edgeSwtich[i])
 
         for i in range(2, 4):
             self.addLink(
-                self.aggregationSwitch[1], self.edgeSwtich[i], **linkopt_layer2)
+                self.aggregationSwitch[1], self.edgeSwtich[i])
 
         # edge -> hosts
-        linkopt_layer3 = self.linkopts3
+        # linkopt_layer3 = self.linkopts3
         for i in range(0, 4):
             for j in range(0, self.fanout):
                 self.addLink(
-                    self.edgeSwtich[i], self.hosts[i * self.fanout + j], **linkopt_layer3)
+                    self.edgeSwtich[i], self.hosts[i * self.fanout + j])
 
 
 def perfTest():
     "Create network and run simple performance test"
 
-    linkopts1 = dict(bw=1000, delay='5ms')
-    linkopts2 = dict(bw=100, delay='8ms')
-    linkopts3 = dict(bw=100, delay='2ms')
+    # linkopts1 = dict(bw=1000, delay='5ms')
+    # linkopts2 = dict(bw=100, delay='8ms')
+    # linkopts3 = dict(bw=100, delay='2ms')
 
-    topo = CustomTopo(linkopts1, linkopts2, linkopts3, fanout=2)
-    net = Mininet(topo=topo)
+    topo = CustomTopo(fanout=2)
+    net = Mininet(topo=topo, host=CPULimitedHost, link=TCLink)
     net.start()
     print "Dumping host connections"
     dumpNodeConnections(net.hosts)
