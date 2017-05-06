@@ -75,9 +75,9 @@ def perfTest():
     "Create network and run simple performance test"
 
     "Get network options"
-    linkoption1_input = input("Please enter bandwidth and delay for linkoption1 (core -> aggregation) separated by space\n => ")
-    linkoption2_input = input("Please enter bandwidth and delay for linkoption1 (aggregation -> edge) separated by space\n => ")
-    linkoption3_input = input("Please enter bandwidth and delay for linkoption1 (edge -> host) separated by space\n => ")
+    linkoption1_input = raw_input("Please enter bandwidth and delay for linkoption1 (core -> aggregation) separated by space\n => ")
+    linkoption2_input = raw_input("Please enter bandwidth and delay for linkoption1 (aggregation -> edge) separated by space\n => ")
+    linkoption3_input = raw_input("Please enter bandwidth and delay for linkoption1 (edge -> host) separated by space\n => ")
 
     linkopts1 = dict(bw=1000, delay='5ms')
     linkopts2 = dict(bw=100, delay='8ms')
