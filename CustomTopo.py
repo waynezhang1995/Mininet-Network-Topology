@@ -25,78 +25,58 @@ class CustomTopo(Topo):
 
     # Hosts
     numberOfHosts = 0
-    hosts = []
 
-    # Switches
-    coreSwitch = []
-    aggregationSwitch = []
-    edgeSwtich = []
-
-    def __init__(self, fanout=2, **opts):
+    def __init__(self, linkopts1, linkopts2, linkopts3, fanout=2, **opts):
         # Initialize topology and default options
         Topo.__init__(self, **opts)
 
-        # self.linkopts1 = linkopts1
-        # self.linkopts2 = linkopts2
-        # self.linkopts3 = linkopts3
+        self.linkopts1 = linkopts1
+        self.linkopts2 = linkopts2
+        self.linkopts3 = linkopts3
         self.fanout = fanout
         self.numberOfHosts = 4 * self.fanout
+
+        core = self.addSwitch('c1')
+
+        aggregation1 = self.addSwitch('a1')
+        aggregation2 = self.addSwitch('a2')
+
+        edge1 = self.addSwitch('e1')
+        edge2 = self.addSwitch('e2')
+        edge3 = self.addSwitch('e3')
+        edge4 = self.addSwitch('e4')
+
+        self.addLink(core, aggregation1, **linkopts1)
+        self.addLink(core, aggregation2, **linkopts1)
+
+        self.addLink(aggregation1, edge1, **linkopts2)
+        self.addLink(aggregation1, edge2, **linkopts2)
+        self.addLink(aggregation2, edge3, **linkopts2)
+        self.addLink(aggregation2, edge4, **linkopts2)
 
         '''
         Create hosts
         '''
-        for h in range(1, self.numberOfHosts + 1):
-            self.hosts.append(self.addHost('h%s' % h))
+        for i in irange(1, numberOfHosts)
+            host = self.addHost('h%s' % i)
 
-        '''
-        Add switch
-        '''
-        # core
-        self.coreSwitch.append(self.addSwitch('c1'))
-
-        # aggregation
-        for s in range(1, 3):
-            self.aggregationSwitch.append(self.addSwitch('a%s' % s))
-
-        # edge
-        for s in range(1, 5):
-            self.edgeSwtich.append(self.addSwitch('e%s' % s))
-
-        '''
-        Create links
-        '''
-        # linkopt_layer1 = self.linkopts1
-        # core -> aggregation
-        for i in range(0, 2):
-            self.addLink(
-                self.coreSwitch[0], self.aggregationSwitch[i])
-
-        # aggregation -> edge
-        # linkopt_layekr2 = self.linkopts2
-        for i in range(0, 2):
-            self.addLink(
-                self.aggregationSwitch[0], self.edgeSwtich[i])
-
-        for i in range(2, 4):
-            self.addLink(
-                self.aggregationSwitch[1], self.edgeSwtich[i])
-
-        # edge -> hosts
-        # linkopt_layer3 = self.linkopts3
-        for i in range(0, 4):
-            for j in range(0, self.fanout):
-                self.addLink(
-                    self.edgeSwtich[i], self.hosts[i * self.fanout + j])
-
+            if i <= fanout * 1:
+                self.addLink(host, edge1, **linkopts3)
+            elif i > fanout * 1 and i <= fanout * 2:
+                self.addLink(host, edge2, **linkopts3)
+            elif i > fanout * 2 and i <= fanout * 3:
+                self.addLink(host, edge3, **linkopts3)
+            else:
+                self.addLink(host, edge4, **linkopts3)
 
 def perfTest():
     "Create network and run simple performance test"
 
-    # linkopts1 = dict(bw=1000, delay='5ms')
-    # linkopts2 = dict(bw=100, delay='8ms')
-    # linkopts3 = dict(bw=100, delay='2ms')
+    linkopts1 = dict(bw=1000, delay='5ms')
+    linkopts2 = dict(bw=100, delay='8ms')
+    linkopts3 = dict(bw=100, delay='2ms')
 
-    topo = CustomTopo(fanout=2)
+    topo = CustomTopo(linkopts1, linkopts2, linkopts3, fanout=2)
     net = Mininet(topo=topo, host=CPULimitedHost, link=TCLink)
     net.start()
     print "Dumping host connections"
