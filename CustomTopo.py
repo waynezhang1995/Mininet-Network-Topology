@@ -13,8 +13,9 @@ from mininet.topo import Topo
 from mininet.net import Mininet
 from mininet.node import CPULimitedHost
 from mininet.link import TCLink
-from mininet.util import irange,dumpNodeConnections
+from mininet.util import irange, dumpNodeConnections
 from mininet.log import setLogLevel
+
 
 class CustomTopo(Topo):
     "Simple Data Center Topology"
@@ -61,55 +62,58 @@ class CustomTopo(Topo):
         for s in range(1, 5):
             self.edgeSwtich.append(self.addSwitch('e%s' % s))
 
-
         '''
         Create links
         '''
         linkopt_layer1 = self.linkopts1
         # core -> aggregation
         for i in range(0, 2):
-            self.addLink(self.coreSwitch[0], self.aggregationSwitch[i], **linkopt_layer1)
+            self.addLink(
+                self.coreSwitch[0], self.aggregationSwitch[i], **linkopt_layer1)
 
         # aggregation -> edge
         linkopt_layer2 = self.linkopts2
         for i in range(0, 2):
-            self.addLink(self.aggregationSwitch[0], self.edgeSwtich[i], **linkopt_layer2)
+            self.addLink(
+                self.aggregationSwitch[0], self.edgeSwtich[i], **linkopt_layer2)
 
         for i in range(2, 4):
-            self.addLink(self.aggregationSwitch[1], self.edgeSwtich[i], **linkopt_layer2)
+            self.addLink(
+                self.aggregationSwitch[1], self.edgeSwtich[i], **linkopt_layer2)
 
         # edge -> hosts
         linkopt_layer3 = self.linkopts3
         for i in range(0, 4):
             for j in range(0, self.fanout):
-                self.addLink(self.aggregationSwitch[i], self.hosts[i * self.fanout + j], **linkopt_layer3)
+                self.addLink(
+                    self.aggregationSwitch[i], self.hosts[i * self.fanout + j], **linkopt_layer3)
 
 
-    def perfTest():
-        "Create network and run simple performance test"
+def perfTest():
+    "Create network and run simple performance test"
 
-        linkopts1 = dict(bw=1000, delay='5ms')
-        linkopts2 = dict(bw=100, delay='8ms')
-        linkopts3 = dict(bw=100, delay='2ms')
+    linkopts1 = dict(bw=1000, delay='5ms')
+    linkopts2 = dict(bw=100, delay='8ms')
+    linkopts3 = dict(bw=100, delay='2ms')
 
-        topo = CustomTopo(linkopts1, linkopts2, linkopts3, fanout=2)
-        net = Mininet(topo=topo, host=CPULimitedHost, link=TCLink)
-        net.start()
-        print "Dumping host connections"
-        dumpNodeConnections(net.hosts)
-        print "Testing network connectivity"
-        net.pingAll()
-        print "Testing bandwidth between h1 and h4"
-        h1, h4 = net.get('h1', 'h4')
-        net.iperf((h1, h4))
-        net.stop()
-
-
-
-        # Add your logic here ...
-    if __name__ == '__main__':
-        setLogLevel('info')
-        perfTest()
+    topo = CustomTopo(linkopts1, linkopts2, linkopts3, fanout=2)
+    net = Mininet(topo=topo, host=CPULimitedHost, link=TCLink)
+    net.start()
+    print "Dumping host connections"
+    dumpNodeConnections(net.hosts)
+    print "Testing network connectivity"
+    net.pingAll()
+    print "Testing bandwidth between h1 and h4"
+    h1, h4 = net.get('h1', 'h4')
+    net.iperf((h1, h4))
+    net.stop()
 
 
-topos = { 'custom': ( lambda: CustomTopo() ) }
+
+    # Add your logic here ...
+if __name__ == '__main__':
+    setLogLevel('info')
+    perfTest()
+
+
+topos = {'custom': (lambda: CustomTopo())}
