@@ -57,7 +57,7 @@ class CustomTopo(Topo):
         '''
         Create hosts
         '''
-        for i in irange(1, numberOfHosts)
+        for i in irange(1, self.numberOfHosts):
             host = self.addHost('h%s' % i)
 
             if i <= fanout * 1:
@@ -87,8 +87,6 @@ def perfTest():
     h1, h4 = net.get('h1', 'h4')
     net.iperf((h1, h4))
     net.stop()
-
-
 
     # Add your logic here ...
 if __name__ == '__main__':
