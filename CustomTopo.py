@@ -97,7 +97,7 @@ def perfTest():
     linkopts3 = dict(bw=100, delay='2ms')
 
     topo = CustomTopo(linkopts1, linkopts2, linkopts3, fanout=2)
-    net = Mininet(topo=topo, host=CPULimitedHost, link=TCLink)
+    net = Mininet(topo=topo)
     net.start()
     print "Dumping host connections"
     dumpNodeConnections(net.hosts)
