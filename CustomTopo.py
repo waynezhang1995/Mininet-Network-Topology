@@ -86,7 +86,7 @@ class CustomTopo(Topo):
         for i in range(0, 4):
             for j in range(0, self.fanout):
                 self.addLink(
-                    self.aggregationSwitch[i], self.hosts[i * self.fanout + j], **linkopt_layer3)
+                    self.edgeSwtich[i], self.hosts[i * self.fanout + j], **linkopt_layer3)
 
 
 def perfTest():
