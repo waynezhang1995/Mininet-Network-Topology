@@ -92,7 +92,7 @@ class CustomTopo(Topo):
         linkopts2 = dict(bw=100, delay='8ms')
         linkopts3 = dict(bw=100, delay='2ms')
 
-        topo = LinearTopo(**linkopts1, **linkopts2, **linkopts3, fanout=2)
+        topo = CustomTopo(linkopts1, linkopts2, linkopts3, fanout=2)
         net = Mininet(topo=topo, host=CPULimitedHost, link=TCLink)
         net.start()
         print "Dumping host connections"
