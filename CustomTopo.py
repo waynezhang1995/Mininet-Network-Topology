@@ -88,9 +88,9 @@ class CustomTopo(Topo):
     def perfTest():
         "Create network and run simple performance test"
 
-        linkopts1 = dict(bw=1000, delay='5ms', loss=1, max_queue_size=1000, use_htb=True)
-        linkopts2 = dict(bw=100, delay='8ms', loss=1, max_queue_size=1000, use_htb=True)
-        linkopts3 = dict(bw=100, delay='2ms', loss=1, max_queue_size=1000, use_htb=True)
+        linkopts1 = dict(bw=1000, delay='5ms')
+        linkopts2 = dict(bw=100, delay='8ms')
+        linkopts3 = dict(bw=100, delay='2ms')
 
         topo = LinearTopo(**linkopts1, **linkopts2, **linkopts3, fanout=2)
         net = Mininet(topo=topo, host=CPULimitedHost, link=TCLink)
