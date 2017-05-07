@@ -9,6 +9,8 @@ Adopted from:
 Professor: Nick Feamster
 '''
 
+#!/usr/bin/python
+
 from mininet.topo import Topo
 from mininet.net import Mininet
 from mininet.node import CPULimitedHost
