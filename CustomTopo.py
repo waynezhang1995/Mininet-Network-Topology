@@ -71,21 +71,28 @@ class CustomTopo(Topo):
             else:
                 self.addLink(host, edge4, **linkopts3)
 
+
 def perfTest():
     "Create network and run simple performance test"
 
     "Get network options"
-    linkoption1_input = raw_input("Please enter bandwidth and delay for linkoption1 (core -> aggregation) separated by space\n => ").split()
-    linkoption2_input = raw_input("\nPlease enter bandwidth and delay for linkoption1 (aggregation -> edge) separated by space\n => ").split()
-    linkoption3_input = raw_input("\nPlease enter bandwidth and delay for linkoption1 (edge -> host) separated by space\n => ").split()
+    linkoption1_input = raw_input(
+        "Please enter bandwidth and delay for linkoption1 (core -> aggregation) separated by space\n => ").split()
+    linkoption2_input = raw_input(
+        "\nPlease enter bandwidth and delay for linkoption1 (aggregation -> edge) separated by space\n => ").split()
+    linkoption3_input = raw_input(
+        "\nPlease enter bandwidth and delay for linkoption1 (edge -> host) separated by space\n => ").split()
 
-    linkopts1 = dict(bw=linkoption1_input[0], delay=linkoption1_input[1])
-    linkopts2 = dict(bw=linkoption2_input[0], delay=linkoption2_input[1])
-    linkopts3 = dict(bw=linkoption3_input[0], delay=linkoption3_input[1])
+    linkopts1 = dict(
+        bw=float(linkoption1_input[0]), delay=linkoption1_input[1] + "ms")
+    linkopts2 = dict(
+        bw=float(linkoption2_input[0]), delay=linkoption2_input[1] + "ms")
+    linkopts3 = dict(
+        bw=float(linkoption3_input[0]), delay=linkoption3_input[1] + "ms")
 
-    print "\nCore -----> Aggregation: bw=" + linkoption1_input[0] + ", delay=" + linkoption1_input[1]
-    print "\nAggregation -----> Edge: bw=" + linkoption2_input[0] + ", delay=" + linkoption2_input[1]
-    print "\nEdge -----> Host: bw=" + linkoption3_input[0] + ", delay=" + linkoption3_input[1]
+    print "\nCore -----> Aggregation: bw=" + linkoption1_input[0] + ", delay=" + linkoption1_input[1] + "ms"
+    print "\nAggregation -----> Edge: bw=" + linkoption2_input[0] + ", delay=" + linkoption2_input[1] + "ms"
+    print "\nEdge -----> Host: bw=" + linkoption3_input[0] + ", delay=" + linkoption3_input[1] + "ms"
 
     topo = CustomTopo(linkopts1, linkopts2, linkopts3, fanout=2)
     net = Mininet(topo=topo, host=CPULimitedHost, link=TCLink)
@@ -98,6 +105,7 @@ def perfTest():
     h1, h4 = net.get('h1', 'h4')
     net.iperf((h1, h4))
     net.stop()
+
 
     # Add your logic here ...
 if __name__ == '__main__':
