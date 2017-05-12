@@ -75,6 +75,9 @@ class CustomTopo(Topo):
 def perfTest():
     "Create network and run simple performance test"
 
+    "Number of hosts"
+    numHosts = raw_input("Please enter the number of child per node\n => ")
+
     "Get network options"
     linkoption1_input = raw_input(
         "Please enter bandwidth and delay for linkoption1 (core -> aggregation) separated by space\n => ").split()
@@ -94,7 +97,7 @@ def perfTest():
     print "\nAggregation -----> Edge: bw=" + linkoption2_input[0] + ", delay=" + linkoption2_input[1] + "ms"
     print "\nEdge -----> Host: bw=" + linkoption3_input[0] + ", delay=" + linkoption3_input[1] + "ms"
 
-    topo = CustomTopo(linkopts1, linkopts2, linkopts3, fanout=2)
+    topo = CustomTopo(linkopts1, linkopts2, linkopts3, fanout=numHosts)
     net = Mininet(topo=topo, host=CPULimitedHost, link=TCLink)
     net.start()
     print "Dumping host connections"
