@@ -97,7 +97,7 @@ def perfTest():
     print "\nAggregation -----> Edge: bw=" + linkoption2_input[0] + ", delay=" + linkoption2_input[1] + "ms"
     print "\nEdge -----> Host: bw=" + linkoption3_input[0] + ", delay=" + linkoption3_input[1] + "ms"
 
-    topo = CustomTopo(linkopts1, linkopts2, linkopts3, fanout=numHosts)
+    topo = CustomTopo(linkopts1, linkopts2, linkopts3, fanout=int(numHosts))
     net = Mininet(topo=topo, host=CPULimitedHost, link=TCLink)
     net.start()
     print "Dumping host connections"
