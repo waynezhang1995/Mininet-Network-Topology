@@ -1,3 +1,4 @@
+
 '''
 YuWei Zhang
 V00805647
@@ -72,35 +73,29 @@ class CustomTopo(Topo):
                 self.addLink(host, edge4, **linkopts3)
 
 
-def perfTest():
-    "Create network and run simple performance test"
-    numHosts = linkoption1_input = linkoption2_input = linkoption3_input = linkopts1 = linkopts2 = linkopts3 = None
-
+def getLinkConfig(message, linkoption_input):
     while True:
-        "Number of hosts"
         try:
-            numHosts = raw_input(
-                "Please enter the number of child per node\n => ")
-            numHosts = int(numHosts)
-            "Get network options"
-
-            linkoption1_input = raw_input(
-                "Please enter bandwidth and delay for linkoption1 (core -> aggregation) separated by space\n => ").split()
-            linkopts1 = dict(
-                bw=float(linkoption1_input[0]), delay=linkoption1_input[1] + "ms")
-
-            linkoption2_input = raw_input(
-                "\nPlease enter bandwidth and delay for linkoption1 (aggregation -> edge) separated by space\n => ").split()
-            linkopts2 = dict(
-                bw=float(linkoption2_input[0]), delay=linkoption2_input[1] + "ms")
-
-            linkoption3_input = raw_input(
-                "\nPlease enter bandwidth and delay for linkoption1 (edge -> host) separated by space\n => ").split()
-
-            linkopts3 = dict(
-                bw=float(linkoption3_input[0]), delay=linkoption3_input[1] + "ms")
+            linkoption_input = raw_input(message).split()
+            linkopts = dict(
+                bw=float(linkoption_input[0]), delay=linkoption_input[1] + "ms")
+            return linkopts
         except:
             print "Error: Integer only !"
+
+
+def perfTest():
+    "Create network and run simple performance test"
+
+    "Number of hosts"
+    numHosts = raw_input(
+        "Please enter the number of child per node\n => ")
+    numHosts = int(numHosts)
+
+    "Get network options"
+    linkopts1 = getLinkConfig("Please enter bandwidth and delay for linkoption1 (core -> aggregation) separated by space\n => ", linkoption1_input)
+    linkopts2 = getLinkConfig("\nPlease enter bandwidth and delay for linkoption1 (aggregation -> edge) separated by space\n => ", linkoption2_input)
+    linkopts3 = getLinkConfig("\nPlease enter bandwidth and delay for linkoption1 (edge -> host) separated by space\n => ", linkoption3_input)
 
     print "\nFanout is " + str(numHosts)
     print "\nCore -----> Aggregation: bw=" + linkoption1_input[0] + ", delay=" + linkoption1_input[1] + "ms"
