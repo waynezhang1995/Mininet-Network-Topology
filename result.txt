@@ -1,0 +1,17 @@
+Please enter the number of child per node
+ => Please enter bandwidth and delay for linkoption1 (core -> aggregation) separated by space
+ => 
+Please enter bandwidth and delay for linkoption1 (aggregation -> edge) separated by space
+ => 
+Please enter bandwidth and delay for linkoption1 (edge -> host) separated by space
+ => 
+Fanout is 4
+
+Core -----> Aggregation: bw=100.0, delay=2msms
+
+Aggregation -----> Edge: bw=200.0, delay=3msms
+
+Edge -----> Host: bw=100.0, delay=4msms
+Dumping host connections
+Testing network connectivity
+Testing bandwidth between h1 and h4
