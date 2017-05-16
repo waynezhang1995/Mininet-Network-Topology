@@ -81,7 +81,7 @@ def getLinkConfig(message):
                 bw=float(linkoption_input[0]), delay=linkoption_input[1] + "ms")
             return linkopts
         except:
-            print "Error: Integer only !"
+            print "Error: Integer only ! Example input: => 100 1"
 
 
 def perfTest():
