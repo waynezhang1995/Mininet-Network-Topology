@@ -98,9 +98,9 @@ def perfTest():
     linkopts3 = getLinkConfig("\nPlease enter bandwidth and delay for linkoption1 (edge -> host) separated by space\n => ")
 
     print "\nFanout is " + str(numHosts)
-    print "\nCore -----> Aggregation: bw=" + str(linkopts1['bw']) + ", delay=" + str(linkopts1['delay']) + "ms"
-    print "\nAggregation -----> Edge: bw=" + str(linkopts2['bw']) + ", delay=" + str(linkopts2['delay']) + "ms"
-    print "\nEdge -----> Host: bw=" + str(linkopts3['bw']) + ", delay=" + str(linkopts3['delay']) + "ms"
+    print "\nCore -----> Aggregation: bw=" + str(linkopts1['bw']) + ", delay=" + str(linkopts1['delay'])
+    print "\nAggregation -----> Edge: bw=" + str(linkopts2['bw']) + ", delay=" + str(linkopts2['delay'])
+    print "\nEdge -----> Host: bw=" + str(linkopts3['bw']) + ", delay=" + str(linkopts3['delay'])
 
     topo = CustomTopo(linkopts1, linkopts2, linkopts3, fanout=int(numHosts))
     net = Mininet(topo=topo, host=CPULimitedHost, link=TCLink)
